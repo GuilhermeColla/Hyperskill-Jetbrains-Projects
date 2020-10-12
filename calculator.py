@@ -1,5 +1,5 @@
-import string
 import sys
+
 
 class Calculator:
     def __init__(self):
@@ -43,37 +43,6 @@ class Calculator:
                 print(self.user_variables.get(''.join(input_list), 'Unknown variable'))
         self.get_input()
 
-    #    def input_parsing(self, input_list):
-    #        if len(input_list) != 0:
-    #            if input_list[0] == '/':
-    #                execute_command(''.join(input_list))
-    #            elif len(input_list) > 1:
-    #                for element in input_list:
-    #                    if '=' in element:
-    #                        self.declare_variable(input_list)
-    #                        break
-    #                    elif '+' in element or '-' in element or '/' in element or '*' in element:
-    #                        self.infix_to_postfix(input_list)
-    #                        break
-    #            else:
-    #                self.single_element_parse(input_list[0])
-    #        return
-
-    #    def single_element_parse(self, element_str):
-    #        self.search_for_digits(element_str)
-    #        if '=' in element_str:
-    #            self.declare_variable([element_str])
-    #        elif self.has_digits:
-    #            try:
-    #                print(int(element_str))
-    #            except ValueError:
-    #                print('Invalid identifier')
-    #        else:
-    #            try:
-    #                print(self.user_variables[element_str])
-    #            except KeyError:
-    #                print('Unknown variable')
-
     def declare_variable(self, input_list):
         # Esse bloquinho toma conta da entrada de tal modo que o usuário pode declarar variáveis de qualquer forma.
 
@@ -102,80 +71,6 @@ class Calculator:
             print('Invalid assignment')  # (contém somente letras).
         elif input_list[1].isdecimal():  # Por último, o caso mais básico 'x = 4' ('letra' = 'número')
             self.user_variables[input_list[0]] = int(input_list[1])
-
-    #    def declare_variable(self, input_list):
-    #        # Esse bloquinho toma conta da entrada.
-    #        # Com ele o usuário pode declarar variáveis de qualquer forma.
-    #
-    #        # No caso do usuário colocar como entrada: x=3, sem espaços.
-    #        # Esse carinha separa a entrada em dois elementos dentro da mesma lista
-    #        if len(input_list) == 1:
-    #            input_list = input_list[0].split('=')
-    #
-    #        # Esse cara aqui, não tenho certeza como mas, ele faz algo que concerta o caso v =3 (igual do lado do número)
-    #        for i in range(len(input_list)):
-    #            input_list[i] = input_list[i].replace('=', '')
-    #        try:
-    #            input_list.remove('')
-    #        except ValueError:
-    #            pass
-    #
-    #        # No caso de x = 3 = 4
-    #        if len(input_list) > 2:
-    #            print('Invalid assignment')
-    #            return
-    #
-    #        # Não aceitamos variáveis com números.
-    #        self.search_for_digits(input_list[0])
-    #        if self.has_digits:
-    #            print('Invalid identifier')
-    #            return
-    #
-    #        # No caso do usuário querer declarar x = a onde "a" pode ser uma variável já existente com um valor.
-    #        # Se "a" não existe, avisamos usuário
-    #        self.search_for_digits(input_list[1])  # Também verificamos se "a" é uma entrada válida.
-    #        self.search_for_letters(input_list[1])
-    #        if self.has_digits and self.has_letters:
-    #            print('Invalid assignment')
-    #            return
-    #        elif input_list[1] in self.user_variables:  # Se "a" possui valor, então "x" terá o mesmo valor de "a"
-    #            self.user_variables[input_list[0]] = self.user_variables[input_list[1]]
-    #        elif self.has_digits and not self.has_letters:
-    #            self.user_variables[input_list[0]] = int(input_list[1])
-    #        elif input_list[1] not in self.user_variables and not self.has_digits:
-    #            print('Unknown variable')
-
-    #    def sum_user_input(self, number_list):
-    #        parsed_list = self.sign_parse(number_list)  # Isso concerta multiplos "-"
-    #        n = len(parsed_list)
-    #        for element in parsed_list:  # Aqui estamos substituindo variáveis por seus valores, caso existam.
-    #            self.search_for_letters(element)
-    #            if self.has_letters:
-    #                if element in self.user_variables:
-    #                    parsed_list[parsed_list.index(element)] = self.user_variables[element]
-    #                else:
-    #                    print('Unknown variable')
-    #            else:
-    #                continue
-    #        total = int(parsed_list[0])
-
-    #        for i in range(1, n, 2):
-    #            if parsed_list[i] == "-":
-    #                total -= int(parsed_list[i + 1])
-    #            else:
-    #                total += int(parsed_list[i + 1])
-    #        print(total)
-
-    #    def sign_parse(self, number_list):  # Aqui consertamos os sinais múltiplos (1--1 = 1+1)
-    #        for i in range(len(number_list)):
-    #            minus_amount = number_list[i].count('-')
-    #            if minus_amount > 1 and minus_amount % 2 == 1:
-    #                number_list[i].replace('-', '')
-    #                number_list.insert(i, '-')
-    #            elif minus_amount % 2 == 0:
-    #                del number_list[i]
-    #                number_list.insert(i, '+')
-    #        return number_list
 
     def sign_parse(self, number_list):
         for i in range(len(number_list) - 2):
@@ -266,6 +161,7 @@ class Calculator:
         print(temp_result_stack.pop())
         self.get_input()
 
+
 def single_operation(operator, operand1, operand2):  # Switch para as operações da calculadora
     operation = {  # todo: adicionar potênciacão
         '+': str(int(operand1) + int(operand2)),
@@ -300,18 +196,6 @@ def execute_command(command_str):  # Switch para os comandos da calculadora
     if command is None:
         return print('Unknown command')
     return command()
-
-
-#   if command_str == '/exit':
-#       print('Bye!')
-#       self.calc_on = False
-#   elif command_str == '/help':
-#       print('This program is a calculator that can assign variables using "=" sign'
-#             'and make two operations: "+" and "-"')
-#   elif command_str == '/vars':
-#       print(self.user_variables)
-#   else:
-#       print('Unknown command')
 
 
 program = Calculator()
